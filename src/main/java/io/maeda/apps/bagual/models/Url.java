@@ -1,5 +1,6 @@
 package io.maeda.apps.bagual.models;
 
+import io.maeda.apps.bagual.validators.NotAShortUrl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -33,6 +34,7 @@ public class Url {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotAShortUrl
     @NonNull
     @Column(name = "url_original", nullable = false)
     private String originalUrl;

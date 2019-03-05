@@ -128,6 +128,16 @@ public class ApiControllerTest extends AbstractIntegrationTest {
     public void shouldBlockShorteningAnAlreadyShortenedUrl() throws Exception {
         call("bagu.al", post("/api/shortening")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\":\"http://bagu.al/A\"}")
+        )
+                .andExpect(status().isForbidden())
+                .andExpect(MockMvcResultMatchers.content().string("{\"code\":\"403\",\"message\":\"NOT_CREATED\",\"content\":[{\"violation\":\"io.maeda.apps.bagual.urls.shortUrlNotAllowed\",\"value\":\"http://bagu.al/A\"}]}"));
+    }
+
+    @Test
+    public void shouldTheSameUrlWhenThisUrlIsAlreadyShortened() throws Exception {
+        call("bagu.al", post("/api/shortening")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"url\":\"http://bagu.al/6V\"}")
         )
                 .andExpect(status().isOk())

@@ -1,17 +1,13 @@
 package io.maeda.apps.bagual.controllers;
 
 import io.maeda.apps.bagual.dtos.ShorteningRequest;
+import io.maeda.apps.bagual.dtos.ResponsePayload;
 import io.maeda.apps.bagual.exceptions.ShortUrlNotFoundException;
 import io.maeda.apps.bagual.models.ShortUrl;
 import io.maeda.apps.bagual.services.PhishingService;
 import io.maeda.apps.bagual.services.ReportService;
 import io.maeda.apps.bagual.services.ShortenerService;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +46,7 @@ public class ApiController {
     @RequestMapping(value = "/api/shortening", method = RequestMethod.POST)
     public ResponseEntity<?> shorten(@RequestBody @Valid ShorteningRequest payload) {
         ShortUrl shortUrl = service.shorten(defaultAlias, payload.getUrl());
-        return ResponseEntity.ok(SuccessResponse.builder()
+        return ResponseEntity.ok(ResponsePayload.builder()
                 .code(String.valueOf(HttpStatus.OK.value()))
                 .message("CREATED")
                 .content(shortUrl.getShortUrl()).build());
@@ -58,7 +54,7 @@ public class ApiController {
 
     @RequestMapping(value = "/api/details/{alias}", method = RequestMethod.GET)
     public ResponseEntity<?> details(@PathVariable("alias") String alias) {
-        SuccessResponse<Object> response = SuccessResponse.builder()
+        ResponsePayload<Object> response = ResponsePayload.builder()
                 .code(String.valueOf(HttpStatus.OK))
                 .message("FOUND")
                 .content(reportService.details(alias)).build();
@@ -68,7 +64,7 @@ public class ApiController {
 
     @RequestMapping(value = "/api/details/{alias}/{shortcut}", method = RequestMethod.GET)
     public ResponseEntity<?> detailsShortcut(@PathVariable("alias") String alias, @PathVariable("shortcut") String shortcut) {
-        SuccessResponse<Object> response = SuccessResponse.builder()
+        ResponsePayload<Object> response = ResponsePayload.builder()
                 .code(String.valueOf(HttpStatus.OK))
                 .message("FOUND")
                 .content(reportService.details(alias, shortcut).orElseThrow(() -> new ShortUrlNotFoundException("NOT_FOUND"))).build();
@@ -82,15 +78,5 @@ public class ApiController {
         return ResponseEntity.ok().build();
     }
 
-    @AllArgsConstructor
-    @EqualsAndHashCode
-    @ToString
-    @Getter
-    @Builder
-    public static class SuccessResponse<T> {
-        private String code;
-        private String message;
-        private T content;
-    }
 
 }
