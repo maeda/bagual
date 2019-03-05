@@ -124,6 +124,16 @@ public class ApiControllerTest extends AbstractIntegrationTest {
 
     }
 
+    @Test
+    public void shouldBlockShorteningAnAlreadyShortenedUrl() throws Exception {
+        call("bagu.al", post("/api/shortening")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"url\":\"http://bagu.al/6V\"}")
+        )
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("{\"code\":\"200\",\"message\":\"CREATED\",\"content\":\"http://bagu.al/6V\"}"));
+    }
+
     @SneakyThrows
     private Redirect buildRedirect(ShortUrl shortUrl) {
         return Redirect.builder()
