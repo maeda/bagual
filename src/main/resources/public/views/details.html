@@ -1,0 +1,24 @@
+<div class="row-fluid">
+    <p><time class="font-weight-light text-uppercase create-date" datetime="{{$ctrl.urlDetails.created}}">Criado em {{$ctrl.urlDetails.created}}</time></p>
+    <p class="font-weight-light"><a href="{{$ctrl.urlDetails.originalUrl}}" target="_blank">{{$ctrl.urlDetails.originalUrl}}</a> </p>
+    <p>
+        <div class="row">
+            <div class="col-3"><input type="text" class="form-control " readonly placeholder="{{$ctrl.urlDetails.shortUrl}}"></div>
+            <small id="shortUrlCopiedMessage" class="form-text text-muted">{{$ctrl.shortUrlCopiedMessage}}</small>
+            <div class="col-2">
+                <button type="button"
+                        class="btn btn-light"
+                        ngclipboard
+                        data-clipboard-text="{{$ctrl.urlDetails.shortUrl}}"
+                        ngclipboard-success="$ctrl.shortUrlCopied('Copiado!')"
+                        ngclipboard-error="$ctrl.shortUrlCopied('Falha ao copiar. Por favor, tente copiar a url manualmente.')">
+                    <i class="far fa-copy"></i> Copiar</button>
+            </div>
+        </div>
+
+    </p>
+</div>
+<hr/>
+<div class="row-fluid">
+    <p class="font-weight-light">{{$ctrl.urlDetails.clicks}} cliques</p>
+</div>

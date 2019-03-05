@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: "encurtador"
+  profiles:
+    active: local
+  cloud:
+    config:
+      enabled: false

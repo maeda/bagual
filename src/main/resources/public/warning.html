@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="WarningApp">
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Cuidado!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/warning.css">
+</head>
+<body class="text-left" style="background-color: #cd0000" ng-controller="WarningController as ctrl">
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <div class="inner">
+            <h3 class="masthead-brand">Cuidado!</h3>
+            <nav class="nav nav-masthead justify-content-center">
+
+            </nav>
+        </div>
+    </header>
+
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">Site malicioso adiante</h1>
+        <p>A url <strong>{{ctrl.shortUrl}}</strong> está direcionando você para o site <strong>{{ctrl.originalUrl}}</strong> que parece perigoso.</p>
+
+        <p>Sites perigoso podem executar alguma ação maliciosa
+            como instalação indevida de programas ou roubo de informações confidenciais (por exemplo, senhas, números de telefone, número de cartões de crédito ou dados bancários).</strong></p>
+
+
+        <p class="lead">
+            <a href="{{ctrl.shortUrl}}+" class="btn btn-lg btn-secondary float-right">Tire-me daqui</a>
+        </p>
+
+        <p>
+            <br/>
+            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Detalhes
+            </a>
+        </p>
+        <br/>
+        <div class="collapse" id="collapseExample">
+            <p>Você pode reportar um problema nessa detecção no site <strong>{{ctrl.originalUrl}}</strong>.
+                Caso deseje seguir adiante mesmo sabendo dos riscos, <a href="{{ctrl.originalUrl}}}"><u>clique aqui</u>.</a></p>
+
+        </div>
+    </main>
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+
+        </div>
+    </footer>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-resource/1.7.0/angular-resource.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.18/angular-ui-router.min.js"></script>
+
+    <script>
+        angular.module('WarningApp', ['ui.router'])
+            .config(['$locationProvider', function($locationProvider){
+                $locationProvider.html5Mode( true );
+            }])
+            .controller('WarningController', ['$location', function($location){
+                var model = this;
+                var params = $location.search();
+
+                model.shortUrl = params['shortUrl'];
+                model.originalUrl = params['url'];
+            }]);
+    </script>
+</body>
+</html>
