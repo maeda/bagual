@@ -19,10 +19,7 @@ public class ShortUrlHelper {
         Pattern pattern = Pattern.compile("(https?:/\\/)?(bagu\\.al)(\\/)([0-9a-zA-Z]+)$");
         Matcher matcher = pattern.matcher(shortUrl);
 
-        if(!matcher.find())
-            return Optional.empty();
-
-        return Optional.of(new ShortUrlVO(matcher.group(2), matcher.group(4)));
+        return !matcher.find() ? Optional.empty() : Optional.of(new ShortUrlVO(matcher.group(2), matcher.group(4)));
     }
 
     public boolean isAShortenedUrl(@NonNull String shortUrl) {
