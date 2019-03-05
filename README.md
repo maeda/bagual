@@ -1,6 +1,8 @@
 # Bagual Shortening Service
 
-## Descrição
+## Descrição / Description
+
+**pt-br**
 
 O bagu.al é um encurtador de urls que nasceu no dia 20 de setembro de 2011 como um pet project feito em um dia 
 incentivado por uma amiga.
@@ -11,7 +13,13 @@ Atualmente oferece como funcionalidades o encurtamento de urls pela [página web
 plugin para o [Google Chrome](http://bagu.al/BP) e visualização de informações para cada url encurtada 
 (bastando adicionar um  *+* no final do link encurtado. Ex.: [https://bagu.al/A+](https://bagu.al/A+) ).
 
-## Tecnologias
+**en-us**
+
+The bagu.al is a urls shortener who was born on September 20, 2011 as a pet project done on a day encouraged by a friend. Initially built to be a shortening platform as a service, the application went through several changes eventually being completely rewritten to serve only the domain **bagu.al**.
+
+Currently offers as features the shortening of urls by the [web page](https://bagu.al), plugin for [Google Chrome](http://bagu.al/BP) and information visualization for each shortened url (simply add a *+* at the end of the shortened link, eg. [https://bagu.al/A+](https://bagu.al/A+)).
+
+## Tecnologias / Tech Stack
 
 - Java 8
 - Spring Boot
@@ -21,13 +29,22 @@ plugin para o [Google Chrome](http://bagu.al/BP) e visualização de informaçõ
 - Gradle
 - Docker
 
-## Como contribuir
+## Como contribuir / How to contribute
+
+**pt-br**
 
 Você pode participar do projeto sugerindo algo legal, criando uma issue, abrindo um pull request
 ou até mesmo [pagando um café](https://pag.ae/7UFskKU4n) = )
 
 No momento o deploy é feito por mim mesmo, mas futuramente será automatizado.
 
+**en-us**
+
+You can join the project by suggesting something cool, creating an issue, opening a pull request
+or even [paying for a coffee] (https://pag.ae/7UFskKU4n) =)
+
+At the moment deploy is done by myself, but in the future it will be automated.
+
 ___
 
-Feito com <span style="color: #e25555;">&hearts;</span> por [@maedabr](https://twitter.com/maedabr)
+Made with <span style="color: #e25555;">&hearts;</span> by [@maedabr](https://twitter.com/maedabr)
