@@ -62,7 +62,7 @@ No momento o deploy é feito por mim mesmo, mas futuramente será automatizado.
 **en-us**
 
 You can join the project by suggesting something cool, creating an issue, opening a pull request
-or even [paying me a coffee](https://pag.ae/7UFskKU4n) =)
+or even [paying me a coffee](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZXFNAA37B9LPE&currency_code=BRL&source=url) =)
 
 At the moment deploy is done by myself, but in the future it will be automated.
 
