@@ -55,7 +55,7 @@ By satisfying these conditions, simply run `make run-local` in the terminal. Thi
 **pt-br**
 
 Você pode participar do projeto sugerindo algo legal, criando uma issue, abrindo um pull request
-ou até mesmo [pagando um café](https://pag.ae/7UFskKU4n) = )
+ou até mesmo [pagando um café](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZXFNAA37B9LPE&currency_code=BRL&source=url) = )
 
 No momento o deploy é feito por mim mesmo, mas futuramente será automatizado.
 
