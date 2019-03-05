@@ -28,6 +28,27 @@ Currently offers as features the shortening of urls by the [web page](https://ba
 - Angular
 - Gradle
 - Docker
+- MySql
+
+## Rodando localmente / Run locally
+
+**pt-br**
+
+Para rodar na máquina local você precisa ter instalado os seguintes softwares:
+
+- docker-compose: https://docs.docker.com/compose/install/
+- Java JDK 8: https://openjdk.java.net/install/
+
+Satisfazendo essas condições, basta rodar `make run-local` no terminal. Esse target executará o docker-compose subindo um banco mysql e o mountebank (http://www.mbtest.org/) para simular o serviço anti-phishing.
+
+**en-us**
+
+To run on the local machine you need to have installed the following software:
+
+- docker-compose: https://docs.docker.com/compose/install/
+- Java JDK 8: https://openjdk.java.net/install/
+
+By satisfying these conditions, simply run `make run-local` in the terminal. This target will run docker-compose starting a mysql database and mountebank (http://www.mbtest.org/) to simulate the anti-phishing service.
 
 ## Como contribuir / How to contribute
 
