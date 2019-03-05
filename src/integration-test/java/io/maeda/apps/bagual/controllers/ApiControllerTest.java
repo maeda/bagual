@@ -143,7 +143,7 @@ public class ApiControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    public void shouldShorteningAndUrl() throws Exception {
+    public void shouldShorteningAnUrl() throws Exception {
         call("bagu.al", post("/api/shortening")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"url\":\"http://example.com\"}")
