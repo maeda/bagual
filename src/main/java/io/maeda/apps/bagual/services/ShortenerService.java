@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,10 +21,6 @@ public class ShortenerService {
         Url originalUrl = urlService.findOrSave(url);
 
         return shortUrlService.findOrSave(aliasService.find(alias), originalUrl);
-    }
-
-    public Optional<ShortUrl> find(String alias, String shortcut) {
-        return shortUrlService.find(aliasService.find(alias), shortcut);
     }
 
 }

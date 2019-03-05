@@ -1,0 +1,2 @@
+phish_id,url,phish_detail_url,submission_time,verified,verification_time,online,target
+123456,http://mainiawa.weebly.com,http://www.phishtank.com/phish_detail.php?phish_id=123456,2009-06-19T15:15:47+00:00,yes,2009-06-19T15:37:31+00:00,yes,maniawa

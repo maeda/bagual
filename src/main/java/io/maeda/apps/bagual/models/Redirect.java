@@ -1,14 +1,18 @@
 package io.maeda.apps.bagual.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.maeda.apps.bagual.helpers.CoordinateConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,7 +29,7 @@ import java.util.TimeZone;
 @AllArgsConstructor
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"created", "modified", "deletedDate"})
+@EqualsAndHashCode
 @Entity(name = "redirects")
 @Builder
 public class Redirect {
@@ -33,6 +37,7 @@ public class Redirect {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "short_url_id", nullable = false)
@@ -55,26 +60,33 @@ public class Redirect {
     @Column(name = "redirect_status", length = 3)
     private String redirectStatus;
 
+    @Setter
     @Column(name = "country", length = 64)
     private String country;
 
+    @Setter
     @Column(name = "city", length = 64)
     private String city;
 
+    @Setter
     @Column(name = "coordinates", length = 32)
-    private String coordinates;
+    @Convert(converter = CoordinateConverter.class)
+    private Coordinate coordinates;
 
     @Column(name = "deleted")
     private Boolean deleted;
 
+    @EqualsAndHashCode.Exclude
     @Column(name = "deleted_date")
     private LocalDateTime deletedDate;
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "created", nullable = false)
     private LocalDateTime created = LocalDateTime.now();
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "modified", nullable = false)

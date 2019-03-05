@@ -3,9 +3,21 @@ version: '3.1'
 services:
   db:
     image: mysql
-    env_file:
-      - local.env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lookr_encurtador
+      MYSQL_USER: encurtador
+      MYSQL_PASSWORD: encurtador
     ports:
       - "3306:3306"
     volumes:
       - ./db:/docker-entrypoint-initdb.d
+
+  mountebank:
+    image: expert360/mountebank
+    command: --configfile /imposters/imposters.ejs --allowInjection --debug
+    ports:
+      - "2525:2525"
+      - "3000:3000"
+    volumes:
+      - ./mountebank:/imposters

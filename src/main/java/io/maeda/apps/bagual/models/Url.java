@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -15,14 +16,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"created", "modified"})
-@Entity(name = "urls")
+@EqualsAndHashCode
+@Entity
+@Table(name = "urls")
 @Builder
 public class Url {
 
@@ -34,6 +37,7 @@ public class Url {
     @Column(name = "url_original", nullable = false)
     private String originalUrl;
 
+    @Setter
     @Column(name = "suspect", nullable = false)
     private boolean suspect;
 
@@ -41,11 +45,13 @@ public class Url {
     @Column(name = "shortcut_count", nullable = false, length = 11)
     private int shortcutCount = 1;
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "created", nullable = false)
     private LocalDateTime created = LocalDateTime.now();
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "modified", nullable = false)
@@ -63,7 +69,7 @@ public class Url {
         modified = LocalDateTime.now();
     }
 
-    public UrlBuilder clone() {
+    public UrlBuilder copy() {
         return Url.builder()
                 .id(this.id)
                 .originalUrl(this.originalUrl)

@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"created", "modified"})
+@EqualsAndHashCode
 @Entity(name = "seeds")
 @Builder
 public class Seed {
@@ -31,6 +31,7 @@ public class Seed {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ToString.Exclude
     @NonNull
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "alias_id", nullable = false)
@@ -40,11 +41,13 @@ public class Seed {
     @Column(name = "seed", length = 20)
     private long seed = 0;
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "created", nullable = false)
     private LocalDateTime created = LocalDateTime.now();
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "modified", nullable = false)
@@ -55,5 +58,9 @@ public class Seed {
         LocalDateTime now = LocalDateTime.now();
         created = created == null ? now : created;
         modified = modified == null ? now : modified;
+    }
+
+    public void increment() {
+        this.seed = this.seed + 1;
     }
 }

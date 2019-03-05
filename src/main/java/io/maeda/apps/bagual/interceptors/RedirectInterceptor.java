@@ -1,12 +1,15 @@
 package io.maeda.apps.bagual.interceptors;
 
-import io.maeda.apps.bagual.dtos.RedirectRequest;
+import io.maeda.apps.bagual.models.Redirect;
 import io.maeda.apps.bagual.models.ShortUrl;
 import io.maeda.apps.bagual.services.AliasService;
+import io.maeda.apps.bagual.services.GeolocationService;
 import io.maeda.apps.bagual.services.RedirectService;
+import io.maeda.apps.bagual.services.ShortUrlService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -16,6 +19,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -24,9 +29,15 @@ import java.util.Optional;
 public class RedirectInterceptor implements HandlerInterceptor {
     private final RedirectService redirectService;
     private final AliasService aliasService;
+    private final ShortUrlService shortUrlService;
+    private final GeolocationService geolocationService;
+    private final Clock clock;
 
     @Value("${io.maeda.bagual.alias:bagu.al}")
     private String defaultAlias;
+
+    @Value("${io.maeda.apps.bagual.redirect.alias-blacklist:11}")
+    private String aliasBlacklist;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object)
@@ -35,17 +46,21 @@ public class RedirectInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        Optional<ShortUrl> url = redirectService.record(
-                RedirectRequest.builder()
-                        .alias(aliasService.find(defaultAlias))
-                        .referer(Optional.ofNullable(request.getHeader("referer")).orElse(""))
-                        .remoteAddr(request.getRemoteAddr())
-                        .shortcut(request.getRequestURI().substring(1))
-                        .userAgent(request.getHeader("User-Agent"))
-                        .build()
-        );
+        Optional<ShortUrl> shortUrl = shortUrlService.find(aliasService.find(defaultAlias), request.getRequestURI().substring(1));
 
-        return url.map(item -> keepHandlingInterceptors(item.getShortUrl(), item.getUrl().getOriginalUrl(), response)).orElse(Boolean.TRUE);
+        shortUrl.filter(item -> !aliasBlacklist.equals(item.getShortcut()))
+                .map(item -> redirectService.save(
+                        Redirect.builder()
+                                .shortUrl(item)
+                                .httpReferer(Optional.ofNullable(request.getHeader(HttpHeaders.REFERER)).orElse(""))
+                                .remoteAddr(request.getRemoteAddr())
+                                .httpUserAgent(request.getHeader(HttpHeaders.USER_AGENT))
+                                .requestTime(Redirect.getRequestTimeCalculated(LocalDateTime.now(clock)))
+                                .redirectStatus(String.valueOf(HttpStatus.OK.value()))
+                                .build()))
+                .map(item -> geolocationService.record(item, request.getRemoteAddr()));
+
+        return shortUrl.map(item -> keepHandlingInterceptors(item.getShortUrl(), item.getUrl().getOriginalUrl(), response)).orElse(Boolean.TRUE);
     }
 
     @SneakyThrows

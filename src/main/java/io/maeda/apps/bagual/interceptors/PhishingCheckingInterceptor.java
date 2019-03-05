@@ -31,7 +31,7 @@ public class PhishingCheckingInterceptor implements HandlerInterceptor {
     @SneakyThrows
     private boolean redirect(ShortUrl url, HttpServletResponse response) {
         response.sendRedirect(String.format("/warning?shortUrl=%s&url=%s", url.getShortUrl(), url.getUrl().getOriginalUrl()));
-        log.info(String.format("Phishing url detected: %s", url.getUrl().getOriginalUrl()));
+        log.info(String.format("Phishing url detected. ShortUrl: %s, Url: %s", url.getShortUrl(), url.getUrl().getOriginalUrl()));
         response.setStatus(HttpStatus.TEMPORARY_REDIRECT.value());
 
         return false;

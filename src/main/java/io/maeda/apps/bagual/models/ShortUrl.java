@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"created", "modified"})
+@EqualsAndHashCode
 @Entity(name = "short_urls")
 @Builder
 public class ShortUrl {
@@ -30,8 +31,8 @@ public class ShortUrl {
     private Long id;
 
     @NonNull
-    @Column(name = "alias_id", nullable = false, length = 11)
-    private Long aliasId;
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private Alias alias;
 
     @NonNull
     @ManyToOne(optional = false)
@@ -48,11 +49,13 @@ public class ShortUrl {
     @Column(name = "shortcut", nullable = false, length = 32)
     private String shortcut;
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "created", nullable = false)
     private LocalDateTime created = LocalDateTime.now();
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "modified", nullable = false)

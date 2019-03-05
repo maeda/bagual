@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @ToString
-@EqualsAndHashCode(exclude = {"created", "modified"})
+@EqualsAndHashCode
 @Entity(name = "aliases")
 @Builder
 public class Alias {
@@ -51,11 +51,13 @@ public class Alias {
     @Column(name = "root_redirect", length = 128)
     private String rootRedirect;
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "created", nullable = false)
     private LocalDateTime created = LocalDateTime.now();
 
+    @EqualsAndHashCode.Exclude
     @NonNull
     @Builder.Default
     @Column(name = "modified", nullable = false)

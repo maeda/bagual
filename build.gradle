@@ -47,7 +47,14 @@ dependencies {
     compile("mysql:mysql-connector-java")
 
     compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-websocket")
 
     testCompile("com.h2database:h2:1.4.197")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+task stage(dependsOn: ['build']) {
+    build.mustRunAfter clean
+    integrationTest.enabled = false
+    test.enabled = false
 }

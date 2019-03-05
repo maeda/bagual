@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,5 +20,7 @@ public class Report{
     private String shortUrl;
     private String originalUrl;
     private LocalDateTime created;
-    private int clicks;
+    @ToString.Exclude
+    private Collection<TopLocation> topLocation;
+    private long clicks;
 }

@@ -33,9 +33,11 @@ public class ShortUrlService {
 
     private ShortUrl save(Alias aliasEntity, Url url) {
 
+        aliasEntity.getSeed().increment();
+
         ShortUrl shortUrl = ShortUrl.builder()
                 .aliasName(aliasEntity.getAliasName())
-                .aliasId(aliasEntity.getId())
+                .alias(aliasEntity)
                 .company(aliasEntity.getCompany())
                 .shortcut(algorithm.generate(aliasEntity.getSeed().getSeed()))
                 .url(url)

@@ -17,7 +17,7 @@ public class UrlService {
 
     public Url findOrSave(String url) {
         Url originalUrl = urlRepository.findFirstByOriginalUrl(url)
-                .map(item -> item.clone().shortcutCount(item.getShortcutCount() + 1).build())
+                .map(item -> item.copy().shortcutCount(item.getShortcutCount() + 1).build())
                 .orElseGet(() -> Url.builder().originalUrl(url).build());
 
         return urlRepository.save(originalUrl);
@@ -27,7 +27,11 @@ public class UrlService {
         return urlRepository.findFirstByOriginalUrl(url);
     }
 
-    public Url save(Url url) {
-        return urlRepository.save(url);
+    public Optional<Url> setUrlAsMalicious(String url) {
+        Optional<Url> result = find(url);
+        result.ifPresent(item -> item.setSuspect(true));
+
+        return result;
+
     }
 }

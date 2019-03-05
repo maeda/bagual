@@ -22,7 +22,7 @@ public class ApiControllerTest extends AbstractIntegrationTest {
         call("bagu.al", get("/api.txt?q=http://example.com")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fg"));
+                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fh"));
     }
 
     @Test
@@ -30,11 +30,11 @@ public class ApiControllerTest extends AbstractIntegrationTest {
         call("bagu.al", get("/api.txt?q=http://example.com")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fg"));
+                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fh"));
 
         call("bagu.al", get("/api.txt?q=http://example.com")
                 .contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fg"));
+                .andExpect(MockMvcResultMatchers.content().string("http://bagu.al/1Fh"));
     }
 }
