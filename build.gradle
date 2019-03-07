@@ -53,8 +53,14 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
-//task stage(dependsOn: ['build', 'clean']) {
-//    build.mustRunAfter clean
-////    integrationTest.enabled = false
-////    test.enabled = false
-//}
+gradle.taskGraph.whenReady {
+    taskGraph ->
+        if(taskGraph.hasTask(stage)) {
+            integrationTest.enabled = false
+            test.enabled = false
+        }
+}
+
+task stage(dependsOn: ['build', 'clean']) {
+    build.mustRunAfter clean
+}
