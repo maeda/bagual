@@ -53,8 +53,8 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
-task stage(dependsOn: ['build']) {
+task stage(dependsOn: ['build', 'clean']) {
     build.mustRunAfter clean
-    integrationTest.enabled = false
-    test.enabled = false
+//    integrationTest.enabled = false
+//    test.enabled = false
 }
