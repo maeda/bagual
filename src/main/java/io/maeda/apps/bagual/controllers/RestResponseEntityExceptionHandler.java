@@ -2,6 +2,7 @@ package io.maeda.apps.bagual.controllers;
 
 import io.maeda.apps.bagual.dtos.ResponsePayload;
 import io.maeda.apps.bagual.exceptions.AliasException;
+import io.maeda.apps.bagual.exceptions.AuthenticationException;
 import io.maeda.apps.bagual.exceptions.ShortUrlNotFoundException;
 import lombok.Value;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,12 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(value = {AuthenticationException.class})
+    protected ResponseEntity<Object> handleUnauthorizedRequest(RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
+    }
 
     @ExceptionHandler(value = { AliasException.class})
     protected ResponseEntity<Object> handleBadRequest(RuntimeException ex, WebRequest request) {

@@ -31,7 +31,6 @@ public class ApiController {
 
     private final ShortenerService service;
     private final ReportService reportService;
-    private final PhishingService phishingService;
 
     @Value("${io.maeda.bagual.alias:bagu.al}")
     private String defaultAlias;
@@ -70,12 +69,6 @@ public class ApiController {
                 .content(reportService.details(alias, shortcut).orElseThrow(() -> new ShortUrlNotFoundException("NOT_FOUND"))).build();
 
         return ResponseEntity.ok(response);
-    }
-
-    @RequestMapping(value = "/api/config/security/phishing/load")
-    public ResponseEntity<?> loadPhishingData() {
-        phishingService.process();
-        return ResponseEntity.ok().build();
     }
 
 

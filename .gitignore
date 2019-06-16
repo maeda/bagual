@@ -43,3 +43,4 @@ out
 db
 
 *.iml
+.DS_Store
