@@ -16,18 +16,28 @@ public class AdminApiControllerTest extends AbstractIntegrationTest {
 
     @Test
     public void shouldSetAnUrlAsMalicious() throws Exception {
-        call("bagu.al", put("/api/phishing/bagu.al/6V").header("Authorization", authToken))
+        call("bagu.al", put("/api/phishing/bagu.al/1ue").header("Authorization", authToken))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("http://google.com.br"));
+                .andExpect(MockMvcResultMatchers.content().string("http://mainiawa.weebly.com"));
 
-        call("bagu.al", get("/6V"))
+        call("bagu.al", get("/1ue"))
                 .andExpect(status().isFound())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/warning?shortUrl=http://bagu.al/6V&url=http://google.com.br"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/warning?shortUrl=http://bagu.al/1ue&url=http://mainiawa.weebly.com"));
     }
 
     @Test
     public void shouldIgnoreRequestWithInvalidAuthorization() throws Exception {
-        call("bagu.al", put("/api/phishing/bagu.al/6V").header("Authorization", "wrong"))
+        call("bagu.al", put("/api/phishing/bagu.al/1uf").header("Authorization", "wrong"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void shouldMarkUrlAsDeletedInsteadRemoveIt() throws Exception {
+        call("bagu.al", get("/1ue"))
+                .andExpect(status().isFound());
+        call("bagu.al", delete("/api/bagu.al/1ue").header("Authorization", authToken))
+                .andExpect(status().isOk());
+        call("bagu.al", get("/1ue"))
+                .andExpect(status().isNotFound());
     }
 }

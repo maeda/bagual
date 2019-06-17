@@ -27,7 +27,6 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @Entity(name = "short_urls")
 @Builder
-@Where(clause = "deleted is null")
 public class ShortUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

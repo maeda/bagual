@@ -48,9 +48,9 @@ public class AdminApiController {
                 .filter(item -> item.equals(authToken))
                 .orElseThrow(() -> new AuthenticationException(HttpStatus.UNAUTHORIZED.toString()));
 
-       String response = Optional.ofNullable(alias)
-                .map(aliasService::find)
-                .flatMap(item -> this.shortUrlService.find(item, shortcut))
+       String response = Optional.of(new AliasShortcut(alias, shortcut))
+                .filter(AliasShortcut::isNotEmpty)
+                .flatMap(item -> this.shortUrlService.find(aliasService.find(item.getAlias()), item.getShortcut()))
                 .map(ShortUrl::getUrl)
                 .map(Url::getOriginalUrl)
                 .flatMap(urlService::setUrlAsMalicious)
@@ -60,9 +60,39 @@ public class AdminApiController {
         return ResponseEntity.ok(response);
     }
 
+    @RequestMapping(value = "/api/{alias}/{shortcut}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteUrl(
+            @PathVariable(value = "alias") String alias,
+            @PathVariable(value = "shortcut") String shortcut,
+            @RequestHeader(value = "Authorization") String authTokenHeader) {
+
+        Optional.of(authTokenHeader)
+                .filter(item -> item.equals(authToken))
+                .orElseThrow(() -> new AuthenticationException(HttpStatus.UNAUTHORIZED.toString()));
+
+        ResponseEntity.BodyBuilder response = Optional.of(new AliasShortcut(alias, shortcut))
+                .filter(AliasShortcut::isNotEmpty)
+                .flatMap(item -> this.shortUrlService.find(aliasService.find(item.getAlias()), item.getShortcut()))
+                .map(this.shortUrlService::deactivate)
+                .map(item -> ResponseEntity.ok())
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE));
+
+        return response.build();
+    }
+
     @RequestMapping(value = "/api/config/security/phishing/load")
     public ResponseEntity<?> loadPhishingData() {
         phishingService.process();
         return ResponseEntity.ok().build();
+    }
+
+    @lombok.Value
+    class AliasShortcut {
+        private String alias;
+        private String shortcut;
+
+        public boolean isNotEmpty() {
+            return !(alias.isEmpty() || shortcut.isEmpty());
+        }
     }
 }

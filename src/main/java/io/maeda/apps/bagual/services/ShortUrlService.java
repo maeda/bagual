@@ -28,7 +28,12 @@ public class ShortUrlService {
 
     public Optional<ShortUrl> find(@NotNull Alias alias, String shortcut) {
 
-        return shortUrlRepository.findByCompanyAndAliasNameAndShortcut(alias.getCompany(), alias.getAliasName(), shortcut);
+        return shortUrlRepository.findByCompanyAndAliasNameAndShortcutAndDeletedIsNull(alias.getCompany(), alias.getAliasName(), shortcut);
+    }
+
+    public ShortUrl deactivate(@NotNull ShortUrl shortUrl) {
+        shortUrlRepository.deactivate(shortUrl);
+        return shortUrl;
     }
 
     private ShortUrl save(Alias aliasEntity, Url url) {
@@ -41,6 +46,7 @@ public class ShortUrlService {
                 .company(aliasEntity.getCompany())
                 .shortcut(algorithm.generate(aliasEntity.getSeed().getSeed()))
                 .url(url)
+                .deleted(null)
                 .build();
 
         return shortUrlRepository.save(shortUrl);

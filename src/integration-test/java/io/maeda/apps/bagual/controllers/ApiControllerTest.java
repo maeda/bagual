@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -60,18 +61,17 @@ public class ApiControllerTest extends AbstractIntegrationTest {
         Mockito.doReturn(ResponseEntity.ok(mapper.readValue(new ClassPathResource("geolocation_test.json").getFile(), Geolocation.class)))
                 .when(restTemplate).getForEntity(Mockito.anyString(), Mockito.eq(Geolocation.class));
 
+        ShortUrl shortUrl = shortUrlService.find(aliasService.find(defaultAlias), "6V").orElseThrow(IllegalStateException::new);
+
+        Collection<Redirect> redirectsBefore = redirectRepository.findAllByShortUrl(shortUrl);
+
         call(defaultAlias, get("/6V"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("http://google.com.br"));
 
-        ShortUrl shortUrl = shortUrlService.find(aliasService.find(defaultAlias), "6V").orElseThrow(IllegalStateException::new);
+        Collection<Redirect> redirectsAfter = redirectRepository.findAllByShortUrl(shortUrl);
 
-        Collection<Redirect> redirects = redirectRepository.findAllByShortUrl(shortUrl);
-
-        assertThat(redirects.isEmpty(), equalTo(Boolean.FALSE));
-
-        Redirect redirect = redirects.iterator().next();
-        assertThat(redirect, equalTo(buildRedirect(shortUrl)));
+        assertThat(redirectsBefore.size(), lessThan(redirectsAfter.size()));
 
     }
 
