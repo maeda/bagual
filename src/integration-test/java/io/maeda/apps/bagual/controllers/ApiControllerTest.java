@@ -76,6 +76,13 @@ public class ApiControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    public void shouldNotRedirectAnSoftDeletedUrl() throws Exception {
+        call(defaultAlias, get("/1Ma"))
+                .andExpect(status().isNotFound());
+        shouldShowUrlDetails();
+    }
+
+    @Test
     public void shouldShowUrlDetails() throws Exception {
         call(defaultAlias, get("/6V+"))
                 .andExpect(status().isOk());

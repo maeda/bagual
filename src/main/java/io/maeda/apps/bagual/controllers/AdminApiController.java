@@ -38,7 +38,7 @@ public class AdminApiController {
 
     private final UrlService urlService;
 
-    @RequestMapping(value = "/api/phishing/{alias}/{shortcut}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/phishing/{alias}/{shortcut}", method = RequestMethod.PUT)
     public ResponseEntity<?> setUrlAsPhishing(
             @PathVariable("alias") String alias,
             @PathVariable("shortcut") String shortcut,

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @Entity(name = "short_urls")
 @Builder
+@Where(clause = "deleted is null")
 public class ShortUrl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +63,10 @@ public class ShortUrl {
     @Builder.Default
     @Column(name = "modified", nullable = false)
     private LocalDateTime modified = LocalDateTime.now();
+
+    @EqualsAndHashCode.Exclude
+    @Column(name = "deleted")
+    private LocalDateTime deleted;
 
     @PrePersist
     void prePersist() {

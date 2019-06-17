@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface ShortUrlRepository extends JpaRepository<ShortUrl, Long> {
     Optional<ShortUrl> findByCompanyAndAliasNameAndUrl(Company company, String alias, Url url);
-
     Optional<ShortUrl> findByCompanyAndAliasNameAndShortcut(Company company, String aliasName, String shortcut);
 }

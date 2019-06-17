@@ -10,9 +10,11 @@ insert into urls (id, url_original, suspect, shortcut_count, created, modified) 
 insert into urls (id, url_original, suspect, shortcut_count, created, modified) values (42640, 'http://mainiawa.weebly.com', 0, 0, '2017-07-25 22:26:41', '2017-07-25 22:26:41')
 insert into urls (id, url_original, suspect, shortcut_count, created, modified) values (42641, 'http://204787org.ukit.me/', 1, 0, '2017-07-25 22:29:43', '2017-07-25 22:29:43')
 insert into urls (id, url_original, suspect, shortcut_count, created, modified) values (43376, 'http://www.uetrk.com/aff_c?offer_id=9752&aff_id=13252&aff_sub=natasha', 0, 0, '2018-05-23 21:57:40', '2018-05-23 21:57:40')
+insert into urls (id, url_original, suspect, shortcut_count, created, modified) values (43827, 'https://tinyurl.com/y4vyltp2', 0, 2, '2019-04-30 21:58:46', '2019-04-30 21:58:46')
 
 insert into short_urls (id, alias_id, url_id, company_id, alias, shortcut, created, modified) values (5154, 5, 3613, 1,'bagu.al','6V','2012-04-08 19:41:27','2012-04-08 19:41:27')
 insert into short_urls (id, alias_id, url_id, company_id, alias, shortcut, created, modified) values (42813, 5, 42640, 1,'bagu.al','1ue','2017-07-25 22:26:41','2017-07-25 22:26:41')
 insert into short_urls (id, alias_id, url_id, company_id, alias, shortcut, created, modified) values (42814, 5, 42641, 1,'bagu.al','1uf','2017-07-25 22:29:43','2017-07-25 22:29:43')
 insert into short_urls (id, alias_id, url_id, company_id, alias, shortcut, created, modified) values (43549, 5, 43376, 1,'kard.ec','aZ','2018-05-23 21:57:40','2018-05-23 21:57:40')
+insert into short_urls (id, alias_id, url_id, company_id, alias, shortcut, created, modified, deleted) values (44002, 5, 43827, 1,'bagu.al','1Ma','2019-04-30 21:58:46','2019-04-30 21:58:46', '2019-06-17 19:59:00')
 
